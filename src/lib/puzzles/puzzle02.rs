@@ -1,22 +1,34 @@
 use std::{error::Error, ops::BitXor};
 
-pub struct Puzzle02 {}
+use super::Puzzle;
 
-impl Puzzle02 {
-    pub fn solve_part1(input: Vec<String>) -> i32 {
-        input
+pub struct Puzzle02 {
+    input: String,
+}
+
+impl Puzzle<(i32, i32)> for Puzzle02 {
+    fn build(input: String) -> Self {
+        Self { input }
+    }
+
+    fn solve(&self) -> (i32, i32) {
+        let part1 = self
+            .input
+            .split('\n')
             .into_iter()
             .map(|entry| Part1Entry::from_raw(&entry))
             .filter(|entry| entry.verify())
-            .count() as i32
-    }
+            .count() as i32;
 
-    pub fn solve_part2(input: Vec<String>) -> i32 {
-        input
+        let part2 = self
+            .input
+            .split('\n')
             .into_iter()
             .map(|entry| Part2Entry::from_raw(&entry))
             .filter(|entry| entry.verify())
-            .count() as i32
+            .count() as i32;
+
+        (part1, part2)
     }
 }
 
@@ -114,69 +126,53 @@ fn parse_entry(raw: &str) -> Result<(usize, usize, char, String), Box<dyn Error>
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
-    use std::{
-        fs::File,
-        io::{self, BufRead},
-    };
 
     #[test]
     fn part1_example() {
         let input = "\
-            1-3 a: abcde
-            1-3 b: cdefg
-            2-9 c: ccccccccc";
-        let input = input
-            .split('\n')
-            .map(|s| s.trim().to_string())
-            .collect::<Vec<String>>();
+1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccc"
+            .to_string();
 
-        let solution = Puzzle02::solve_part1(input);
+        let puzzle = Puzzle02::build(input);
+        let solution = puzzle.solve();
 
-        assert_eq!(solution, 2);
+        assert_eq!(solution.0, 2);
     }
 
     #[test]
     fn part1() {
-        let file = File::open("inputs/puzzle02.input").unwrap();
+        let input = fs::read_to_string("inputs/puzzle02.input").unwrap();
+        let puzzle = Puzzle02::build(input);
+        let solution = puzzle.solve();
 
-        let mut input: Vec<String> = Vec::new();
-        for line in io::BufReader::new(file).lines() {
-            input.push(line.unwrap());
-        }
-
-        let solution = Puzzle02::solve_part1(input.into());
-
-        assert_eq!(solution, 477);
+        assert_eq!(solution.0, 477);
     }
 
     #[test]
     fn part2_example() {
         let input = "\
-            1-3 a: abcde
-            1-3 b: cdefg
-            2-9 c: ccccccccc";
-        let input = input
-            .split('\n')
-            .map(|s| s.trim().to_string())
-            .collect::<Vec<String>>();
+1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccc"
+            .to_string();
 
-        let solution = Puzzle02::solve_part2(input);
+        let puzzle = Puzzle02::build(input);
+        let solution = puzzle.solve();
 
-        assert_eq!(solution, 1);
+        assert_eq!(solution.1, 1);
     }
 
     #[test]
     fn part2() {
-        let file = File::open("inputs/puzzle02.input").unwrap();
+        let input = fs::read_to_string("inputs/puzzle02.input").unwrap();
+        let puzzle = Puzzle02::build(input);
+        let solution = puzzle.solve();
 
-        let mut input: Vec<String> = Vec::new();
-        for line in io::BufReader::new(file).lines() {
-            input.push(line.unwrap());
-        }
-
-        let solution = Puzzle02::solve_part2(input.into());
-
-        assert_eq!(solution, 686);
+        assert_eq!(solution.1, 686);
     }
 }
