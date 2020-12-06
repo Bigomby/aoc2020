@@ -1,5 +1,3 @@
-mod puzzles;
-
 fn main() {
     // let matches = App::new("AOC 2020")
     //     .version("0.0.1")

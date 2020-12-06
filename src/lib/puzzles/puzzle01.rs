@@ -1,4 +1,4 @@
-use aoc2020::{check_sum_equals, compute_product, self_cross_product};
+use crate::{check_sum_equals, compute_product, self_cross_product};
 
 #[allow(dead_code)] // Allow dead until CLI is ready
 pub fn solve_puzzle(input: &[i32]) -> (i64, i64) {

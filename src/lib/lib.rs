@@ -1,3 +1,5 @@
+mod puzzles;
+
 use itertools::Itertools;
 
 pub fn self_cross_product(input: &[i32], dims: usize) -> impl Iterator<Item = Vec<i32>> + '_ {
