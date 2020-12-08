@@ -15,3 +15,11 @@ pub fn compute_product(xs: &[i32]) -> i64 {
 pub fn check_sum_equals(xs: &[i32], target: i32) -> bool {
     xs.iter().sum::<i32>() == target
 }
+
+pub fn take_half(range: (i32, i32), section: char) -> (i32, i32) {
+    match section {
+        'F' | 'L' => (range.0, range.0 + (range.1 - range.0) / 2),
+        'B' | 'R' => (range.1 - (range.1 - range.0) / 2, range.1),
+        _ => range,
+    }
+}
