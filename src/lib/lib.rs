@@ -2,6 +2,14 @@ mod puzzles;
 
 use itertools::Itertools;
 
+pub fn decode_lines<'a, I, T, F>(input: I, decode: F) -> impl Iterator<Item = T> + 'a
+where
+    I: Into<&'a str>,
+    F: Fn(&'a str) -> T + 'a,
+{
+    input.into().split('\n').map(move |a| decode(a))
+}
+
 pub fn self_cross_product(input: &[i32], dims: usize) -> impl Iterator<Item = Vec<i32>> + '_ {
     (0..dims)
         .map(|_| input.iter().cloned())
