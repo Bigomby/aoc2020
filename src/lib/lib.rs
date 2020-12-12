@@ -57,3 +57,7 @@ pub fn frequencies(s: &str) -> impl Iterator<Item = (char, usize)> {
 
     freqs.into_iter()
 }
+
+pub fn concat_vec<T>(a: Vec<T>, b: Vec<T>) -> impl Iterator<Item = T> {
+    a.into_iter().chain(b.into_iter())
+}
