@@ -1,7 +1,9 @@
+#![feature(destructuring_assignment)]
+
 mod puzzles;
 
 use itertools::Itertools;
-use std::collections::HashMap;
+use std::{collections::HashMap, error::Error, fmt};
 
 pub fn decode_lines<'a, I, T, F>(input: I, decode: F) -> impl Iterator<Item = T> + 'a
 where
@@ -60,4 +62,19 @@ pub fn frequencies(s: &str) -> impl Iterator<Item = (char, usize)> {
 
 pub fn concat_vec<T>(a: Vec<T>, b: Vec<T>) -> impl Iterator<Item = T> {
     a.into_iter().chain(b.into_iter())
+}
+
+#[derive(Debug)]
+struct PuzzleError;
+
+impl fmt::Display for PuzzleError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Puzzle error")
+    }
+}
+
+impl Error for PuzzleError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        None
+    }
 }
